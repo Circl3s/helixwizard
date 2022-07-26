@@ -1,0 +1,11 @@
+# Binaries for programs and plugins
+main
+helixwizard
+*.exe
+*.exe~
+*.so
+*.dylib
+*.dll
+vls.log
+
+index.json
