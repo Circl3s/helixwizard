@@ -92,10 +92,10 @@ fn (s State) editing_episode() bool {
 fn (s State) prompt() string {
 	mut prompt := term.red("Helix ")
 	if s.active_series_key != "" {
-		prompt += "\n  └── " + s.active_series().title + " "
+		prompt += "> " + s.active_series().title + " "
 	}
 	if s.active_episode_nr != -1 {
-		prompt += "\n       └── " + s.active_episode().title + " "
+		prompt += "> " + s.active_episode().title + " "
 	}
 	prompt += if s.unsaved_changes { term.yellow("> ") } else { "> " }
 	return term.bold(prompt)
