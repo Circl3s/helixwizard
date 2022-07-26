@@ -119,6 +119,20 @@ fn (mut s State) parse(command string) {
 		"dump" {
 			println(s.index)
 		}
+		"exec", "x" {
+			if args.len > 1 {
+				if os.environ()["OS"] == "Windows_NT" {
+					result := os.execute("powershell " + args[1..].join(" "))
+					println(result.output)
+				} else {
+					result := os.execute(args[1..].join(" "))
+					println(result.output)
+				}
+				
+			} else {
+				println(term.fail_message("You have to specify a command to run."))
+			}
+		}
 		"series", "s" {
 			if args.len > 1 {
 				if args[1] in s.index {
@@ -423,6 +437,12 @@ fn (mut s State) parse(command string) {
 			println(term.bold("  ├── Description: ") + "Deletes the ${term.bold("current")} series or episode.")
 			println(term.bold("  ├── Executable in: ") + term.red("ROOT ") + term.green("SERIES ") + term.green("EPISODE"))
 			println(term.bold("  └── Note: ") + "The deletion won't take effect until you ${term.bold("save")}. If you've made a mistake just exit and try again.")
+			//
+			println(term.bold("exec [command]"))
+			println(term.bold("  ├── Description: ") + "Executes a shell command.")
+			println(term.bold("  ├── Executable in: ") + term.green("ROOT ") + term.green("SERIES ") + term.green("EPISODE"))
+			println(term.bold("  ├── Aliases: ") + "x")
+			println(term.bold("  └── Note: ") + 'Linux uses sh while Windows uses PowerShell.')
 		}
 		else {
 			if args[0] in s.index {
